@@ -1,0 +1,46 @@
+:root {
+    --primary-color: #4C6444;
+    --primary-font-color: #212121;
+    --secondary-font-color: #FFFFFF;
+    --bs-primary: var(--primary-color);
+}
+
+/* Bootstrap edit */
+.bg-body-tertiary {
+    background-color: var(--primary-color) !important;
+}
+
+.navbar-brand {
+    color: var(--secondary-font-color);
+}
+
+.pt-6 {
+    padding-top: 4em;
+}
+
+.ms-250p {
+    margin-left: 250px !important;
+}
+
+.dropdown-menu {
+    background-color: var(--primary-color) !important;
+}
+
+.dropdown-item:hover {
+    background-color: #33432e;
+}
+
+.btn-login {
+    background-color: var(--primary-color) !important;
+    color: var(--secondary-font-color) !important;
+}
+/* Custom */
+a {
+    color: var(--secondary-font-color) !important;
+    text-decoration: none;
+}
+.sidebar {
+    background-color: var(--primary-color);
+    color: var(--secondary-font-color);
+    width: 200px;
+} 
