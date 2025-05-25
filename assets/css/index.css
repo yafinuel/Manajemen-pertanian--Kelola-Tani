@@ -1,0 +1,11 @@
+body {
+    background-image: url(../img/home_background.webp);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.wrap {
+    height: 100dvh;
+}
