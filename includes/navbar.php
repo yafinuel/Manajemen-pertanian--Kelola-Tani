@@ -12,7 +12,7 @@
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">Human Resources</a>
+                <a class="nav-link" href="../human_resources/index.php">Human Resources</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#">Farm</a>
