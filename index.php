@@ -12,7 +12,7 @@
 <body>
     <div class="wrap container-fluid d-flex flex-column justify-content-center align-items-center">
         <h1>Welcome to Kelola Tani</h1>
-        <a href="views/home/index.php"><button type="button" class="btn btn-primary" style="--bs-btn-padding-y: .75rem; --bs-btn-padding-x: 1.5rem; --bs-btn-font-size: 1rem;">Masuk</button></a>
+        <a href="views/home/home.php"><button type="button" class="btn btn-primary border-0" style="--bs-btn-padding-y: .75rem; --bs-btn-padding-x: 1.5rem; --bs-btn-font-size: 1rem;">Masuk</button></a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>

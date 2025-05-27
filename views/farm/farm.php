@@ -13,52 +13,27 @@
     <?php require_once '../../includes/navbar.php';?>
     
     <main class="main container d-flex flex-column gap-4 mb-4">
-        <h1>Human Resources</h1>
+        <h1>Farm</h1>
         <section class="container_sect ringkasan_data p-4">
             <h2 class="fs-4">Summary</h2>
                 <ul class="list-unstyled">
                     <li class="d-flex">
-                        <div class="label pe-2" style="min-width: 120px;">Workers</div>
+                        <div class="label pe-2" style="min-width: 120px;">Owned land</div>
                         <div class="result">:</div>
                     </li>
                     <li class="d-flex">
-                        <div class="label pe-2" style="min-width: 120px;">Active workers</div>
+                        <div class="label pe-2" style="min-width: 120px;">Land area</div>
                         <div class="result">:</div>
                     </li>
                 </ul>
         </section>
 
-        <section class="container_sect p-4 d-flex flex-column gap-3">
-            <div class="d-flex justify-content-between">
-                <h2 class="fs-4">Workers</h2>
-                <button class='btn btn-primary border-0' >Add workers</button>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">Usia</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Upah/jam</th>
-                    <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td>Yafi</td>
-                    <td>24</td>
-                    <td>Consultant</td>
-                    <td>30$</td>
-                    <td><a href="">edit</a> | <a href="">delete</a></td>
-                    </tr>
-                </tbody>
-            </table>
+        <section class="container_sect p-4">
+            <h2 class="fs-4">Workers</h2>   
         </section>
 
         <section class="container_sect p-4">
-            <h2 class="fs-4">Active workers</h2>
+            <h2 class="fs-4">Alocation</h2>
             
         </section>
 

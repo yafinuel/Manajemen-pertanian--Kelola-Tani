@@ -3,10 +3,11 @@
     --dark-green: #2E7D32;     /* Header */
     --light-green: #DCEDC8;    /* Background */
     --accent-brown: #5D4037;   /* Aksen */
+    --white: #f8f8f8;
 }
 
 body {
-    background-color: var(--light-green);
+    background-color: var(--white);
 }
 
 ul {
@@ -26,11 +27,10 @@ ul {
 }
 .btn-primary {
     background-color: var(--bs-primary);
-    border: none;
 }
 .btn-primary:hover,.nav-item:hover,.nav-link:hover {
     background-color: var(--bs-dark);
-    color: var(--light-green) !important;
+    color: var(--white) !important;
     border: none;
 }
 
