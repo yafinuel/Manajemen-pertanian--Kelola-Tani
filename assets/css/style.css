@@ -1,57 +1,68 @@
 :root {
-    --primary-green: #4CAF50;  /* Tombol utama */
-    --dark-green: #2E7D32;     /* Header */
-    --light-green: #DCEDC8;    /* Background */
-    --accent-brown: #5D4037;   /* Aksen */
-    --white: #f8f8f8;
+    --primary-green: #528644;  /* Tombol utama */
+    --primary-dark-green: #2f4b28;
 }
 
+/* Element */
 body {
     background-color: var(--white);
 }
-
 ul {
     list-style: none;
 }
-
-:root {
-    --bs-primary: var(--primary-green);
-    --bs-dark: var(--dark-green);
-    --bs-light: var(--light-green);
+a {
+    text-decoration: none;
+    color: inherit;
 }
-.navbar {
-    border-bottom: 1px solid var(--dark-green) !important;
-}
-.bg-primary {
-    background-color: var(--bs-primary) !important;
-}
-.btn-primary {
-    background-color: var(--bs-primary);
-}
-.btn-primary:hover,.nav-item:hover,.nav-link:hover {
-    background-color: var(--bs-dark);
-    color: var(--white) !important;
-    border: none;
+th, td {
+    white-space: nowrap; /* agar teks tidak pindah baris */
 }
 
-.sidebar {
-    height: 100dvh;
-    width: 240px;
-    padding: 84px 0 0 0;
+
+/* Custom warna */
+.bg-primary-green {
+    background-color: var(--primary-green);
 }
 
-.sidebar-nav {
-    width: 100%;
-    list-style: none;
-    text-decoration: None;
+.btn-primary-green {
+    background-color: var(--primary-green);
 }
+
+.text-primary-green {
+    color: var(--primary-green);
+}
+
+
+/* Custome syle */
+
 .main {
     margin-top: 100px;
 }
 
+.img-sizing {
+    height: 250px;
+    box-sizing: border-box;
+}
+
+.radius-10 {
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+.radius-top-10 {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.border-primary-1 {
+    border: 1px solid var(--primary-green);
+}
+
 .container_sect {
     
-    border: 3px solid var(--bs-primary);
+    border: 3px solid var(--primary-green);
     border-radius: 10px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
@@ -61,4 +72,37 @@ ul {
 
 .label {
     width: 9rem;
+}
+
+
+.table-workers {
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+/* Bootstrap edit */
+.nav-link {
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+
+/* Custom hover */
+.btn-primary-green:hover {
+    background-color: var(--primary-dark-green);
+}
+/* Custom active */
+.active {
+    background-color: var(--primary-dark-green);
+}
+
+/* Bootstrap hover edit */
+.nav-link:hover{
+    background-color: var(--primary-dark-green);
 }
