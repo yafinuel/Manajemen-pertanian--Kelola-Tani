@@ -35,6 +35,7 @@ th, td {
 
 /* Custome syle */
 
+
 .main {
     margin-top: 100px;
 }
@@ -60,6 +61,11 @@ th, td {
     border: 1px solid var(--primary-green);
 }
 
+.link-card {
+    background-color: inherit;
+    text-decoration: none;
+    color: inherit;
+}
 .container_sect {
     
     border: 3px solid var(--primary-green);
@@ -96,6 +102,10 @@ th, td {
 /* Custom hover */
 .btn-primary-green:hover {
     background-color: var(--primary-dark-green);
+}
+.alert-link:hover {
+    background-color: var(--primary-dark-green);
+    color: white;
 }
 /* Custom active */
 .active {

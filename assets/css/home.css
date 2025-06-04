@@ -13,3 +13,8 @@
     text-decoration: none;
     color: inherit;
 }
+
+.card-FR:hover, .card-HR:hover, .card-WH:hover {
+    filter: brightness(.6);
+    -webkit-filter: brightness(.6);
+}
