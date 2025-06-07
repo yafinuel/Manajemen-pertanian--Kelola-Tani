@@ -1,11 +1,13 @@
 <?php
     require_once "../../includes/conn.php";
-
+    requireLogin();
 
     if(!isset($_GET['id'])){
         header("Location: hr.php");
         exit();
     }
+
+    $id_user = $_SESSION['id_user'];
 
     $farmer_id = $_GET['id'];
 
@@ -20,11 +22,11 @@
                                 birthday_farmer = ?,
                                 role_farmer = ?,
                                 wage_farmer = ?
-                         WHERE id_farmer = ?';
+                         WHERE id_farmer = ? and id_user = ?';
         $stmt_update = $conn->prepare($query_update);
 
         if($stmt_update){
-            $stmt_update->bind_param('sssii', $iname, $ibirthday, $irole, $iwage, $farmer_id);
+            $stmt_update->bind_param('sssiii', $iname, $ibirthday, $irole, $iwage, $farmer_id, $id_user);
             
             if ($stmt_update->execute()){
                 $status_message = 'Data petani berhasil diubah!';
@@ -45,11 +47,11 @@
         }
     }
 
-    $query_select = "SELECT id_farmer, name_farmer, birthday_farmer, role_farmer, wage_farmer FROM farmers WHERE id_farmer = ?";
+    $query_select = "SELECT id_farmer, name_farmer, birthday_farmer, role_farmer, wage_farmer FROM farmers WHERE id_farmer = ? and id_user = ?";
     $stmt_select = $conn->prepare($query_select);
 
     if ($stmt_select) {
-        $stmt_select->bind_param('i', $farmer_id);
+        $stmt_select->bind_param('ii', $farmer_id, $id_user);
         $stmt_select->execute();
         $result_select = $stmt_select->get_result();
 

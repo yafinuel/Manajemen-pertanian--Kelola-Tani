@@ -27,7 +27,7 @@ function getActiveClass($page_name) {
             <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto d-flex gap-2">
                 <li class="nav-item">
-                <a class="nav-link text-white <?php echo getActiveClass('home'); ?>" <?php echo getAriaCurrentPage('home'); ?>href="../home/home.php">Home</a>
+                <a class="nav-link text-white <?php echo getActiveClass('home'); ?>" <?php echo getAriaCurrentPage('home'); ?>href="../home/home.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link text-white <?php echo getActiveClass('hr'); ?>" <?php echo getAriaCurrentPage('hr'); ?> href="../human_resources/hr.php">Human Resources</a>
@@ -39,7 +39,7 @@ function getActiveClass($page_name) {
                 <a class="nav-link text-white <?php echo getActiveClass('werehouse'); ?>" <?php echo getAriaCurrentPage('werehouse'); ?>  href="../werehouse/werehouse.php">Werehouse</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link text-white" href="#">Settings</a>
+                <a class="nav-link text-white <?php echo getActiveClass('settings'); ?>" href="../settings/settings.php">Settings</a>
                 </li>
             </ul>
             </div>

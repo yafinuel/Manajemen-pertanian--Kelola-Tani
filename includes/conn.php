@@ -1,12 +1,24 @@
 <?php
+session_start();
 $host = "localhost";
-$username = "root";
-$password = "root";
-$database = "kelola_tani";
+$db_user = "root";
+$db_pass = "root";
+$db_name = "kelola_tani";
 
-$conn = mysqli_connect($host, $username, $password, $database);
+$conn = new mysqli($host, $db_user, $db_pass, $db_name);
 
-if (!$conn) {
-    die("Koneksi gagal: " . mysqli_connect_error());
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
+}
+
+function isLoggedIn() {
+    return isset($_SESSION['id_user']);
+}
+
+function requireLogin() {
+    if (!isLoggedIn()) {
+        header("Location: ../login/login.php");
+        exit();
+    }
 }
 ?>

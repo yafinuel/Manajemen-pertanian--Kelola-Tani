@@ -1,10 +1,21 @@
-<!-- Halaman home -->
+<?php
+        require_once "../../includes/conn.php";
+    include_once "../../includes/showData.php";
+
+    $show = new ShowData($conn); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Manrope:wght@200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
+    <title>Werehouse</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <link rel="stylesheet" href="../../assets/css/style.css?v=1.2">
 </head>
@@ -85,40 +96,10 @@
                 <div class="col-4 text-center">
                     <strong>Action</strong>
                 </div>
-            </div>
-        
-        <div class="row border rounded p-3 mb-2">
-            <div class="col-1 text-center">
-                <span class="badge bg-secondary">1</span>
-            </div>
-            <div class="col-4">
-                <h6 class="mb-0">Padi</h6>
-            </div>
-            <div class="col-3 text-center">
-                <p>200kg</p>
-            </div>
-            <div class="col-4 text-center">
-                <a href="#" class="text-primary me-2">edit</a> • 
-                <a href="#" class="text-danger ms-2">delete</a>
-            </div>
-        </div>
-        
-        <div class="row border rounded p-3 mb-2">
-            <div class="col-1 text-center">
-                <span class="badge bg-secondary">2</span>
-            </div>
-            <div class="col-4">
-                <h6 class="mb-0">Jagung</h6>
-            </div>
-            <div class="col-3 text-center">
-                <p>100kg</p>
-            </div>
-            <div class="col-4 text-center">
-                <a href="#" class="text-primary me-2">edit</a> • 
-                <a href="#" class="text-danger ms-2">delete</a>
-            </div>
-        </div>
-    </section>
+            </div>  
+            <?php $show->showDataWerehouse(); ?>
+
+        </section>
     
     </main>
 

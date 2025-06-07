@@ -1,10 +1,22 @@
-<!-- Halaman home -->
+<?php
+    require_once "../../includes/conn.php";
+    include_once "../../includes/showData.php";
+    requireLogin();
+
+    $show = new ShowData($conn, $_SESSION['id_user']); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Manrope:wght@200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
+    <title>Farms</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <link rel="stylesheet" href="../../assets/css/style.css?v=1.2">
 </head>
@@ -30,8 +42,8 @@
 
         <section class="container_sect p-4 d-flex flex-column gap-3">
             <div class="d-flex justify-content-between">
-                <h2 class="fs-4 fw-bold text-primary-green">Ongoing</h2>
-                <button class='btn btn-primary-green text-white fw-bold border-0' >Add Active Workers</button>
+                <h2 class="fs-4 fw-bold text-primary-green">Planted</h2>
+                <button class='btn btn-primary-green text-white fw-bold border-0' >Add Farm Planted</button>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm">
@@ -66,37 +78,11 @@
             </div>
             <!-- Ini adalah list containernya untuk loop db nanti -->
             <div class="list-group gap-2">
-                <div class="list-group-item d-flex align-items-center p-3">
-                    <div class="me-3">
-                        <span class="badge bg-secondary">1</span>
-                    </div>
-                    <div class="flex-grow-1">
-                        <h6 class="mb-1">Pertanian 1</h6>
-                        <small class="text-muted">Sawah • 20m x 20m</small>
-                    </div>
-                    <div class="me-4">
-                        <h6 class="mb-1">Action</h6>
-                        <small class="text-muted"><a href="">edit</a> • <a href="" class="text-danger">delete</a></small>
-                    </div>
-                </div>
-                <div class="list-group-item d-flex align-items-center p-3">
-                    <div class="me-3">
-                        <span class="badge bg-secondary">1</span>
-                    </div>
-                    <div class="flex-grow-1">
-                        <h6 class="mb-1">Pertanian 1</h6>
-                        <small class="text-muted">Sawah • 20m x 20m</small>
-                    </div>
-                    <div class="me-4">
-                        <h6 class="mb-1">Action</h6>
-                        <small class="text-muted"><a href="">edit</a> • <a href=""class="text-danger">delete</a></small>
-                    </div>
-                </div>
+                <?php $show->showDataFarms();?>                
             </div>
         </section>
 
     </main>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>

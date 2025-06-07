@@ -1,11 +1,19 @@
-:root {
-    --primary-green: #528644;  /* Tombol utama */
-    --primary-dark-green: #2f4b28;
+* {
+    font-family: 'Poppins', sans-serif;
 }
 
+:root {
+    --primary-light-green: #c3edb8;  /* Tombol utama */
+    --primary-green: #528644;  /* Tombol utama */
+    --primary-dark-green: #2f4b28;
+    --navbar-dark-mode: #212121;
+    --background-dark-mode: #1A1A1A;
+    --text-dark-mode: #F2F2F2;
+    --secondary-dark-mode: #A0A0A0;
+}
 /* Element */
 body {
-    background-color: var(--white);
+    background-color: white;
 }
 ul {
     list-style: none;
@@ -34,11 +42,37 @@ th, td {
 
 
 /* Custome syle */
-
-
 .main {
     margin-top: 100px;
 }
+
+.main-settings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100dvh;
+}
+.rows-settings {
+    width: 700px;
+    min-height: 500px;
+    align-items: stretch;
+    background-color: var(--primary-light-green);
+    /* color: var(--text-dark-mode); */
+    padding: 30px;
+    box-sizing: border-box;
+    box-shadow: 5px 5px 10px 1px rgba(0,0,0,.2);
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    margin-bottom: 50px;
+}
+
+.nav-settings {
+    border-right: 1px solid #535353;
+}
+
 
 .img-sizing {
     height: 250px;

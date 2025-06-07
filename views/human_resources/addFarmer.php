@@ -1,18 +1,19 @@
 <?php
     require_once "../../includes/conn.php";
-
+    requireLogin();
 
     if (isset($_POST['submit'])){
         $name = htmlspecialchars(trim($_POST['name_farmer']));
         $birthday = htmlspecialchars(trim($_POST['birthday_farmer']));
         $role = htmlspecialchars(trim($_POST['role_farmer']));
         $wage = (int)$_POST['wage_farmer'];
+        $id_user = $_SESSION['id_user'];
 
-        $query = "INSERT INTO farmers (name_farmer, birthday_farmer, role_farmer, wage_farmer) VALUES (?,?,?,?)";
+        $query = "INSERT INTO farmers (name_farmer, birthday_farmer, role_farmer, wage_farmer, id_user) VALUES (?,?,?,?,?)";
         $stmt = $conn->prepare($query);
 
         if($stmt){
-            $stmt->bind_param('sssi', $name, $birthday, $role, $wage);
+            $stmt->bind_param('sssii', $name, $birthday, $role, $wage, $id_user);
             
             if ($stmt->execute()){
                 $status_message = 'Data berhasil ditambahkan';
@@ -72,7 +73,7 @@
                         <input type="text" class="form-control" id="role_farmer" name="role_farmer" placeholder="Masukkan role" >
                     </div>
                     <div class="mb-3">
-                        <label for="wage_farmer" class="form-label">Wage:</label>
+                        <label for="wage_farmer" class="form-label">Upah/hari:</label>
                         <input type="number" class="form-control" id="wage_farmer" name="wage_farmer" placeholder="Masukkan gaji" min="0">
                     </div>
                     <div class="d-flex justify-content-end gap-3">

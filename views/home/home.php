@@ -1,12 +1,18 @@
-
+<?php
+    require_once "../../includes/conn.php";
+    requireLogin();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Manrope:wght@200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css?v=1.2">
     <link rel="stylesheet" href="../../assets/css/home.css?v=1.2">
 </head>
@@ -15,7 +21,7 @@
     <?php require_once '../../includes/navbar.php';?>
 
     <main class="main container d-flex flex-column gap-4 mb-4">
-        <h1 class="fw-bold text-primary-green">Home</h1>
+        <h1 class="fw-bold text-primary-green">Dashboard</h1>
        <section class="container-fluid p-3">
             <div class="card">
                 <!-- Header hijau -->
@@ -87,6 +93,34 @@
                 </a>
             </div>
         </div>
+
+        <section class="container_sect p-4 d-flex flex-column gap-3">
+            <div class="d-flex justify-content-between">
+                <h2 class="fs-4 fw-bold text-primary-green">Running</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Tanggal</th>
+                        <th scope="col">Lahan Pertanian</th>
+                        <th scope="col">Komoditas lahan</th>
+                        <th scope="col">Jumlah pekerja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <th scope="row">1</th>
+                        <td>2025/05/28</td>
+                        <td>Pertanian 1</td>
+                        <td>Padi</td>
+                        <td><a href="">3 Orang</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
