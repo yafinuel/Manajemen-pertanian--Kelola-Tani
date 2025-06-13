@@ -71,7 +71,7 @@ class ShowData{
                     </div>
                     <div class='me-4'>
                         <h6 class='mb-1'>Action</h6>
-                        <small class='text-muted'><a href='editFarm.php?id=$id'>edit</a> • <a href='delFarm.php?id=$id' class='text-danger' onclick=\"return confirm('Yakin ingin menghapus data ".$row['name_farm']."?')\">delete</a></small>
+                        <small class='text-muted'><a href='editFarm.php?id=$id' class='text-primary'>Edit</a> • <a href='delFarm.php?id=$id' class='text-danger' onclick=\"return confirm('Yakin ingin menghapus data ".$row['name_farm']."?')\">Delete</a></small>
                     </div>
                 </div>
                 ";
@@ -118,9 +118,8 @@ class ShowData{
         }
     }
     function showActiveFarmers(){
-        $query = "SELECT aw.id_aw, aw.date_aw, f.name_farm, w.name_farmer, w.role_farmer 
-                    FROM active_workers aw, farms f, farmers w
-                    WHERE aw.delegate_aw = f.id_farm and w.id_farmer = aw.name_aw";
+        $query = "SELECT id_aw, date_aw, name_farm, name_farmer, role_farmer
+                    FROM aw_view";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -135,9 +134,80 @@ class ShowData{
                     <td>".$row['name_farm']."</td>
                     <td>".$row['name_farmer']."</td>
                     <td>".$row['role_farmer']."</td>
-                    <td><a href='#' class='text-primary'>edit</a> | <a href='#' class='text-danger' onclick=\"return confirm('Yakin ingin menghapus data ini?')\">delete</a></td>
+                    <td><a href='editAw.php?id=$id' class='text-primary'>Edit</a> | <a href='delAw.php?id=$id' class='text-danger' onclick=\"return confirm('Yakin ingin menghapus data ini?')\">Delete</a></td>
                 </tr>";
             }
+        } else {
+            echo "
+                <tr>
+                    <td colspan='6' class='text-center'>Tidak ada data</td>
+                </tr>
+            ";
+        }
+    }
+
+    function showDataWorkingNow(){
+        $query = "SELECT id_planting, date_planting, name_farm, name_crop, id_user, total_workers 
+                FROM fp_view
+                WHERE id_user = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s",$this->session);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0 ){
+            $no = 1;
+            while($row = mysqli_fetch_assoc($result)){
+                $id = $row['id_planting'];
+                echo "
+                <tr>
+                <th scope='row'>".$no++."</th>
+                <td>".$row['date_planting']."</td>
+                <td>".$row['name_farm']."</td>
+                <td>".$row['name_crop']."</td>
+                <td class='text-center'><a href=''>".$row['total_workers']."</a></td>
+                <td><a href='delFp.php' class='text-primary'>Selesai</a> | <a href='delFp.php' class='text-danger'>Hapus</a></td>
+                </tr>
+                ";
+            }
+        } else {
+            echo "
+                <tr>
+                    <td colspan='6' class='text-center'>Tidak ada data</td>
+                </tr>
+            ";
+        }
+    }
+
+    function showDataPlanting(){
+        $query = "SELECT fp.id_planting, fp.date_planting, f.name_farm, c.name_crop
+                FROM farm_planting fp, farms f, crops c
+                WHERE fp.id_user = ? and fp.id_farm = f.id_farm and fp.id_crop = c.id_crop";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s",$this->session);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0 ){
+            $no = 1;
+            while($row = mysqli_fetch_assoc($result)){
+                $id = $row['id_planting'];
+                echo "
+                <tr>
+                <th scope='row'>".$no++."</th>
+                <td>".$row['date_planting']."</td>
+                <td>".$row['name_farm']."</td>
+                <td>".$row['name_crop']."</td>
+                <td><a href='editFp.php?id=$id' class='text-primary'>Edit</a> | <a href='delFp.php?id=$id' class='text-danger' onclick=\"return confirm('Yakin ingin menghapus data ini?')\">Delete</a></td>
+                </tr>
+                ";
+            }
+        } else {
+            echo "
+                <tr>
+                    <td colspan='6' class='text-center'>Tidak ada data</td>
+                </tr>
+            ";
         }
     }
 }

@@ -26,7 +26,7 @@
     
     <main class="main container d-flex flex-column gap-4 mb-4">
         <h1 class="fw-bold text-primary-green">Human Resources</h1>
-        <section class="container_sect ringkasan_data p-4">
+        <!-- <section class="container_sect ringkasan_data p-4">
             <h2 class="fs-4 fw-bold text-primary-green">Summary</h2>
                 <ul class="list-unstyled">
                     <li class="d-flex">
@@ -38,9 +38,31 @@
                         <div class="result">:</div>
                     </li>
                 </ul>
+        </section> -->
+
+        <section class="container_sect p-4 d-flex flex-column gap-3">
+            <div class="d-flex justify-content-between">
+                <h2 class="fs-4 fw-bold text-primary-green">Active Farmer</h2>
+                <a href="addAw.php"><button class='btn btn-primary-green text-white fw-bold border-0' >Add Active Farmer</button></a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Tanggal</th>
+                        <th scope="col">Lahan Pertanian</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $show->showActiveFarmers();?>
+                    </tbody>
+                </table>
+            </div>
         </section>
-
-
 
         <section class="container_sect p-4 d-flex flex-column gap-3">
             <div class="d-flex justify-content-between">
@@ -70,31 +92,6 @@
                 </table>
             </div>
         </section>
-
-        <section class="container_sect p-4 d-flex flex-column gap-3">
-            <div class="d-flex justify-content-between">
-                <h2 class="fs-4 fw-bold text-primary-green">Active Farmer</h2>
-                <button class='btn btn-primary-green text-white fw-bold border-0' >Add Active Farmer</button>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-sm">
-                    <thead>
-                        <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Tanggal</th>
-                        <th scope="col">Lahan Pertanian</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $show->showActiveFarmers();?>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>

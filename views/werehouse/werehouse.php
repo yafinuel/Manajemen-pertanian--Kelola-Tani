@@ -2,7 +2,7 @@
         require_once "../../includes/conn.php";
     include_once "../../includes/showData.php";
 
-    $show = new ShowData($conn); 
+    $show = new ShowData($conn, $_SESSION['id_user']); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +25,7 @@
     
     <main class="main container d-flex flex-column gap-4 mb-4">
         <h1 class="fw-bold text-primary-green">Werehouse</h1>
-        <section class="container_sect ringkasan_data p-4">
+        <!-- <section class="container_sect ringkasan_data p-4">
             <h2 class="fs-4 fw-bold text-primary-green">Summary</h2>
             <ul class="list-unstyled">
                     <li class="d-flex">
@@ -37,7 +37,7 @@
                         <div class="result">:</div>
                     </li>
                 </ul>
-            </section>
+            </section> -->
             
             <section class="container_sect p-4">
                 <div class="d-flex justify-content-between">

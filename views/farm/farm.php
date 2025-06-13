@@ -25,25 +25,12 @@
     <?php require_once '../../includes/navbar.php';?>
     
     <main class="main container d-flex flex-column gap-4 mb-4">
-        <h1 class="fw-bold text-primary-green">Farm</h1>
-        <section class="container_sect ringkasan_data p-4">
-            <h2 class="fs-4 fw-bold text-primary-green">Summary</h2>
-                <ul class="list-unstyled">
-                    <li class="d-flex">
-                        <div class="label pe-2" style="min-width: 120px;">Owned land</div>
-                        <div class="result">:</div>
-                    </li>
-                    <li class="d-flex">
-                        <div class="label pe-2" style="min-width: 120px;">Land area</div>
-                        <div class="result">:</div>
-                    </li>
-                </ul>
-        </section>
+        <h1 class="fw-bold text-primary-green">Farm</h1>a
 
         <section class="container_sect p-4 d-flex flex-column gap-3">
             <div class="d-flex justify-content-between">
-                <h2 class="fs-4 fw-bold text-primary-green">Planted</h2>
-                <button class='btn btn-primary-green text-white fw-bold border-0' >Add Farm Planted</button>
+                <h2 class="fs-4 fw-bold text-primary-green">Planting</h2>
+                <a href="addFp.php"><button class='btn btn-primary-green text-white fw-bold border-0' >Add Farm Planting</button></a>
             </div>
             <div class="table-responsive">
                 <table class="table table-sm">
@@ -52,20 +39,12 @@
                         <th scope="col">No</th>
                         <th scope="col">Tanggal</th>
                         <th scope="col">Lahan Pertanian</th>
-                        <th scope="col">Komoditas lahan</th>
-                        <th scope="col">Jumlah pekerja</th>
+                        <th scope="col">Tanaman</th>
                         <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                        <th scope="row">1</th>
-                        <td>2025/05/28</td>
-                        <td>Pertanian 1</td>
-                        <td>Padi</td>
-                        <td><a href="">3 Orang</a></td>
-                        <td><a href="">edit</a> | <a href="" class="text-danger">delete</a></td>
-                        </tr>
+                        <?php $show->showDataPlanting();?>
                     </tbody>
                 </table>
             </div>
@@ -74,7 +53,7 @@
         <section class="container_sect p-4 d-flex flex-column gap-3">
             <div class="d-flex justify-content-between">
                 <h2 class="fs-4 fw-bold text-primary-green">Farm list</h2>
-                <button class='btn btn-primary-green text-white fw-bold border-0' >Add Farm</button>
+                <a href="addFarm.php"><button class='btn btn-primary-green text-white fw-bold border-0' >Add Farm</button></a>
             </div>
             <!-- Ini adalah list containernya untuk loop db nanti -->
             <div class="list-group gap-2">

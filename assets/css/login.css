@@ -37,9 +37,11 @@ form {
     position: absolute;
     top: 30px;
     left: 30px;
+    box-sizing: border-box;
 }
 
 .side-image-login {
+    box-sizing: border-box;
     background-image: url("../../assets/img/login.jpg");
     background-position: center;
     background-size: cover;
@@ -174,6 +176,14 @@ span a:hover{
     color: #08457b
 }
 
+.back {
+    color: rgba(255, 255, 255, .4);
+    cursor: pointer;
+}
+.back:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
 @media only screen and (max-width:768px){
     .side-image-login{
         border-radius: 10px 10px 0 0;
@@ -183,7 +193,7 @@ span a:hover{
         -o-border-radius: 10px 10px 0 0;
     }
 
-    .side-image-register {
+    .side-image-register, .text {
         visibility: hidden;
     }
 
@@ -197,7 +207,7 @@ span a:hover{
     .text {
         position: absolute;
         padding: 20px 30px;
-        top: 10px;
+        top: 0px;
         left: 20px;
     }
 

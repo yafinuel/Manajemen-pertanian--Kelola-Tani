@@ -9,23 +9,32 @@
         $wage = (int)$_POST['wage_farmer'];
         $id_user = $_SESSION['id_user'];
 
-        $query = "INSERT INTO farmers (name_farmer, birthday_farmer, role_farmer, wage_farmer, id_user) VALUES (?,?,?,?,?)";
-        $stmt = $conn->prepare($query);
+        $errors = array();
+        
+        if(empty($name)) $errors[] = "Nama tidak boleh kosong";
+        if(empty($birthday)) $errors[] = "Tanggal lahir tidak boleh kosong";
+        if(empty($role)) $errors[] = "Role tidak boleh kosong";
+        if(empty($wage)) $errors[] = "Gaji tidak boleh kosong";
 
-        if($stmt){
-            $stmt->bind_param('sssii', $name, $birthday, $role, $wage, $id_user);
-            
-            if ($stmt->execute()){
-                $status_message = 'Data berhasil ditambahkan';
-                $status_type = 'success';
+        if(empty($errors)){
+            $query = "INSERT INTO farmers (name_farmer, birthday_farmer, role_farmer, wage_farmer, id_user) VALUES (?,?,?,?,?)";
+            $stmt = $conn->prepare($query);
+    
+            if($stmt){
+                $stmt->bind_param('sssii', $name, $birthday, $role, $wage, $id_user);
+                
+                if ($stmt->execute()){
+                    $status_message = 'Data berhasil ditambahkan';
+                    $status_type = 'success';
+                } else {
+                    $status_message = "Error saat insert data: " . $stmt->error;
+                    $status_type = 'danger';
+                }
+                $stmt->close();
             } else {
-                $status_message = "Error saat insert data: " . $stmt->error;
+                $status_message = "Error mempersiapkan insert statement: " . $conn->error;
                 $status_type = 'danger';
             }
-            $stmt->close();
-        } else {
-            $status_message = "Error mempersiapkan insert statement: " . $conn->error;
-            $status_type = 'danger';
         }
     }
 ?>
@@ -62,19 +71,19 @@
                 <form action="addFarmer.php" method="post">
                     <div class="mb-3">
                         <label for="name_farmer" class="form-label">Nama:</label>
-                        <input type="text" class="form-control" id="name_farmer" name="name_farmer" placeholder="Masukkan nama">
+                        <input type="text" class="form-control" id="name_farmer" name="name_farmer" placeholder="Masukkan nama" required>
                     </div>
                     <div class="mb-3">
                         <label for="birthday_farmer" class="form-label">Tanggal Lahir:</label>
-                        <input type="date" class="form-control" id="birthday_farmer" name="birthday_farmer" >
+                        <input type="date" class="form-control" id="birthday_farmer" name="birthday_farmer" required>
                     </div>
                     <div class="mb-3">
                         <label for="role_farmer" class="form-label">Role:</label>
-                        <input type="text" class="form-control" id="role_farmer" name="role_farmer" placeholder="Masukkan role" >
+                        <input type="text" class="form-control" id="role_farmer" name="role_farmer" placeholder="Masukkan role" required>
                     </div>
                     <div class="mb-3">
                         <label for="wage_farmer" class="form-label">Upah/hari:</label>
-                        <input type="number" class="form-control" id="wage_farmer" name="wage_farmer" placeholder="Masukkan gaji" min="0">
+                        <input type="number" class="form-control" id="wage_farmer" name="wage_farmer" placeholder="Masukkan gaji" min="0" required>
                     </div>
                     <div class="d-flex justify-content-end gap-3">
                         <a href="hr.php" class="btn btn-secondary">← Kembali</a>

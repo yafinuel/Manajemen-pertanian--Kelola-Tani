@@ -1,6 +1,9 @@
 <?php
     require_once "../../includes/conn.php";
+    include_once "../../includes/showData.php";
     requireLogin();
+    
+    $show = new ShowData($conn, $_SESSION['id_user']); 
 ?>
 
 <!DOCTYPE html>
@@ -23,45 +26,7 @@
     <main class="main container d-flex flex-column gap-4 mb-4">
         <h1 class="fw-bold text-primary-green">Dashboard</h1>
        <section class="container-fluid p-3">
-            <div class="card">
-                <!-- Header hijau -->
-                <div class="card-header bg-primary-green text-white rounded-top">
-                    <h2 class="fw-bold m-0">Summary</h2>
-                </div>
-                
-                <!-- Body konten -->
-                <div class="card-body">
-                    <div class="row text-center">
-                        <div class="col-12 col-sm-6 col-md-3 mb-3">
-                            <h3 class="fs-5 fw-bold text-primary-green">Human Resources</h3>
-                            <p>Workers: 0</p>
-                            <p>Average Salary: 0</p>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-3 mb-3">
-                            <h3 class="fs-5 fw-bold text-primary-green">Farm</h3>
-                            <p>Owned land: 0</p>
-                            <p>Land area: 0</p>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-3 mb-3">
-                            <h3 class="fs-5 fw-bold text-primary-green">Werehouse</h3>
-                            <p>Workers: 0</p>
-                            <p>Average Salary: 0</p>
-                        </div>
-                        <div class="col-12 col-sm-6 col-md-3 mb-3">
-                            <h3 class="fs-5 fw-bold text-primary-green">Farm</h3>
-                            <p>Crop variety: 0</p>
-                            <p>Current stock: 0</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-
-        <!-- KARTU -->
-        
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
             <div class="col">
                 <a href="../human_resources/hr.php">
                     <div class="card card-HR">
@@ -93,10 +58,10 @@
                 </a>
             </div>
         </div>
-
+        </section>
         <section class="container_sect p-4 d-flex flex-column gap-3">
             <div class="d-flex justify-content-between">
-                <h2 class="fs-4 fw-bold text-primary-green">Running</h2>
+                <h2 class="fs-4 fw-bold text-primary-green">Working Now</h2>    
             </div>
             <div class="table-responsive">
                 <table class="table table-sm">
@@ -105,23 +70,17 @@
                         <th scope="col">No</th>
                         <th scope="col">Tanggal</th>
                         <th scope="col">Lahan Pertanian</th>
-                        <th scope="col">Komoditas lahan</th>
-                        <th scope="col">Jumlah pekerja</th>
+                        <th scope="col">Tanaman</th>
+                        <th scope="col" class="text-center">Jumlah pekerja</th>
+                        <th scope="col">action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                        <th scope="row">1</th>
-                        <td>2025/05/28</td>
-                        <td>Pertanian 1</td>
-                        <td>Padi</td>
-                        <td><a href="">3 Orang</a></td>
-                        </tr>
+                        <?php $show->showDataWorkingNow();?>
                     </tbody>
                 </table>
             </div>
         </section>
-
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
