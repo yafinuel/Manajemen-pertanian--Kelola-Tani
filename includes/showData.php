@@ -3,13 +3,13 @@
 class ShowData{
     private $query;
     
-    function __construct($conn, $session){
+    function __construct($conn, $sessionUser){
         $this->conn = $conn;
-        $this->session = $session;
+        $this->sessionUser = $sessionUser;
     }
 
     function showDataFarmer(){
-        $query = "SELECT * FROM farmers where id_user = $this->session";
+        $query = "SELECT * FROM farmers where id_user = $this->sessionUser";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -51,7 +51,7 @@ class ShowData{
     }
 
     function showDataFarms(){
-        $query = "SELECT * FROM farms where id_user = $this->session";
+        $query = "SELECT * FROM farms where id_user = $this->sessionUser";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -86,10 +86,11 @@ class ShowData{
     }
 
     function showDataWerehouse(){
-        $query = "SELECT s.id_storage, c.name_commodity, s.volume_storage
-                FROM storages AS s, commodities AS c
-                WHERE s.id_commodity = c.id_commodity";
+        $query = "SELECT s.id_storage, c.name_crop, s.volume_storage
+                FROM storages s, crops c
+                WHERE s.id_crop = c.id_crop and s.id_user = ?";
         $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('i', $this->sessionUser);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -103,14 +104,14 @@ class ShowData{
                     <span class='badge bg-secondary'>".$no++."</span>
                 </div>
                 <div class='col-4'>
-                    <h6 class='mb-0'>".$row['name_commodity']."</h6>
+                    <h6 class='mb-0'>".$row['name_crop']."</h6>
                 </div>
                 <div class='col-3 text-center'>
                     <p>".$row['volume_storage']." Kg</p>
                 </div>
                 <div class='col-4 text-center'>
-                    <a href='editWH.php?id=$id' class='text-primary me-2'>edit</a> • 
-                    <a href='delWH.php?id=$id' class='text-danger ms-2' onclick=\"return confirm('Yakin ingin menghapus data ini?')\">delete</a>
+                    <a href='editItem.php?id=$id' class='text-primary me-2'>edit</a> • 
+                    <a href='delItem.php?id=$id' class='text-danger ms-2' onclick=\"return confirm('Yakin ingin menghapus data ini?')\">delete</a>
                 </div>
             </div>
                 ";
@@ -151,14 +152,13 @@ class ShowData{
                 FROM fp_view
                 WHERE id_user = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("s",$this->session);
+        $stmt->bind_param("s",$this->sessionUser);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0 ){
             $no = 1;
             while($row = mysqli_fetch_assoc($result)){
-                $id = $row['id_planting'];
                 echo "
                 <tr>
                 <th scope='row'>".$no++."</th>
@@ -166,7 +166,7 @@ class ShowData{
                 <td>".$row['name_farm']."</td>
                 <td>".$row['name_crop']."</td>
                 <td class='text-center'><a href=''>".$row['total_workers']."</a></td>
-                <td><a href='delFp.php' class='text-primary'>Selesai</a> | <a href='delFp.php' class='text-danger'>Hapus</a></td>
+                <td><a href='selesaiWn.php?id=".$row['id_planting']."' class='text-primary'>Selesai</a> | <a href='delWn.php?id=".$row['id_planting']."' class='text-danger'>Hapus</a></td>
                 </tr>
                 ";
             }
@@ -184,7 +184,7 @@ class ShowData{
                 FROM farm_planting fp, farms f, crops c
                 WHERE fp.id_user = ? and fp.id_farm = f.id_farm and fp.id_crop = c.id_crop";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("s",$this->session);
+        $stmt->bind_param("i",$this->sessionUser);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -201,6 +201,37 @@ class ShowData{
                 <td><a href='editFp.php?id=$id' class='text-primary'>Edit</a> | <a href='delFp.php?id=$id' class='text-danger' onclick=\"return confirm('Yakin ingin menghapus data ini?')\">Delete</a></td>
                 </tr>
                 ";
+            }
+        } else {
+            echo "
+                <tr>
+                    <td colspan='6' class='text-center'>Tidak ada data</td>
+                </tr>
+            ";
+        }
+    }
+
+    function showDataStock(){
+        $query = "SELECT f.id_flow, f.date_flow, c.name_crop, f.in_flow, f.out_flow, f.id_user
+                FROM storage_flows f, crops c
+                WHERE f.id_crop = c.id_crop and f.id_user = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $this->sessionUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0 ){
+            $no = 1;
+            while($row = mysqli_fetch_assoc($result)){
+                echo
+                "<tr>
+                    <th scope='row'>".$no++."</th>
+                    <td>".$row['date_flow']."</td>
+                    <td>".$row['name_crop']."</td>
+                    <td>".$row['in_flow']." Kg</td>
+                    <td>".$row['out_flow']." Kg</td>
+                    <td><a href='editStock.php?id=".$row['id_flow']."' class='text-primary'>edit</a> | <a href='delStock.php?id=".$row['id_flow']."' class='text-danger'>delete</a></td>
+                </tr>";
             }
         } else {
             echo "

@@ -25,7 +25,7 @@
     <?php require_once '../../includes/navbar.php';?>
     
     <main class="main container d-flex flex-column gap-4 mb-4">
-        <h1 class="fw-bold text-primary-green">Farm</h1>a
+        <h1 class="fw-bold text-primary-green">Farm</h1>
 
         <section class="container_sect p-4 d-flex flex-column gap-3">
             <div class="d-flex justify-content-between">

@@ -39,40 +39,25 @@
                 </ul>
             </section> -->
             
-            <section class="container_sect p-4">
-                <div class="d-flex justify-content-between">
-                    <h2 class="fs-4 fw-bold text-primary-green">Stock flow</h2>
-                    <button class='btn btn-primary-green text-white fw-bold border-0' >Add flow</button>
-                </div>
+        <section class="container_sect p-4">
+            <div class="d-flex justify-content-between">
+                <h2 class="fs-4 fw-bold text-primary-green">Stock flow</h2>
+                <a href="addStock.php"><button class='btn btn-primary-green text-white fw-bold border-0 mb-3'>Tambah data</button></a>
+            </div>
             <div class="table-responsive">
                 <table class="table table-sm">
                     <thead>
                         <tr>
                         <th scope="col">No</th>
                         <th scope="col">Tanggal</th>
-                        <th scope="col">Lahan Pertanian</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">Role</th>
+                        <th scope="col">Tanaman</th>
+                        <th scope="col">Masuk</th>
+                        <th scope="col">Keluar</th>
                         <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>2025/05/28</td>
-                            <td>Pertanian 1</td>
-                            <td>Yafi</td>
-                            <td>Consultant</td>
-                            <td><a href="" class="text-primary">edit</a> | <a href="" class="text-danger">delete</a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>2025/05/28</td>
-                            <td>Pertanian 2</td>
-                            <td>Rudi</td>
-                            <td>Petani</td>
-                            <td><a href="" class="text-primary">edit</a> | <a href="" class="text-danger">delete</a></td>
-                        </tr>
+                        <?php $show->showDataStock();?>
                     </tbody>
                 </table>
             </div>
@@ -81,14 +66,14 @@
         <section class="container_sect p-4">
             <div class="d-flex justify-content-between">
                 <h2 class="fs-4 fw-bold text-primary-green">Storage</h2>
-                <button class='btn btn-primary-green text-white fw-bold border-0' >Add item</button>
+                <a href="addItem.php"><button class='btn btn-primary-green text-white fw-bold border-0' >Tambah data</button></a> 
             </div>
             <div class="row bg-light p-3 mb-3 rounded">
                 <div class="col-1 text-center">
-                    <strong>#</strong>
+                    <strong>No</strong>
                 </div>
                 <div class="col-4">
-                    <strong>Nama Item</strong>
+                    <strong>Tanaman</strong>
                 </div>
                 <div class="col-3 text-center">
                     <strong>Jumlah</strong>

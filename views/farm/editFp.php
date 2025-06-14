@@ -102,8 +102,12 @@
             
             <?php if (!empty($status_message)): ?>
                 <div class="alert alert-<?php echo $status_type; ?> alert-dismissible fade show" role="alert">
-                    <?php echo $status_message; ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="d-flex justify-content-between">
+                        <?php echo $status_message; ?>
+                        <a href="farm.php" class="alert-link">
+                            <button type="button" class="btn" >Lihat data</button>
+                        </a>
+                    </div>
                 </div>
             <?php endif; ?>
 
