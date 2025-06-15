@@ -3,7 +3,7 @@
 }
 
 :root {
-    --primary-light-green: #c3edb8;  /* Tombol utama */
+    --primary-light-green: #626e5f;  /* Tombol utama */
     --primary-green: #528644;  /* Tombol utama */
     --primary-dark-green: #2f4b28;
     --navbar-dark-mode: #212121;
@@ -48,7 +48,7 @@ th, td {
 
 .main-settings {
     display: flex;
-    justify-content: center;
+    justify-content: stretch;
     align-items: center;
     min-height: 100dvh;
 }

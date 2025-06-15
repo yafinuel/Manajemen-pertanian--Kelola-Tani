@@ -26,19 +26,6 @@
     
     <main class="main container d-flex flex-column gap-4 mb-4">
         <h1 class="fw-bold text-primary-green">Human Resources</h1>
-        <!-- <section class="container_sect ringkasan_data p-4">
-            <h2 class="fs-4 fw-bold text-primary-green">Summary</h2>
-                <ul class="list-unstyled">
-                    <li class="d-flex">
-                        <div class="label pe-2" style="min-width: 120px;">Farmer</div>
-                        <div class="result">:</div>
-                    </li>
-                    <li class="d-flex">
-                        <div class="label pe-2" style="min-width: 120px;">Active Farmers</div>
-                        <div class="result">:</div>
-                    </li>
-                </ul>
-        </section> -->
 
         <section class="container_sect p-4 d-flex flex-column gap-3">
             <div class="d-flex justify-content-between">

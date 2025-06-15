@@ -11,8 +11,7 @@
         $startingVolume = (int)$_POST['startingVolume'];
 
         $errors = array();
-
-        // Validasi yang lebih baik untuk dropdown
+        
         if(empty($nameCrop)) $errors[] = "Nama item tidak boleh kosong.";
         if(empty($errors)){
             $query = "INSERT INTO storages (id_crop, volume_storage, id_user) VALUES (?,?,?)";

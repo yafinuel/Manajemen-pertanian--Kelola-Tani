@@ -1,5 +1,5 @@
 <?php
-        require_once "../../includes/conn.php";
+    require_once "../../includes/conn.php";
     include_once "../../includes/showData.php";
 
     $show = new ShowData($conn, $_SESSION['id_user']); 

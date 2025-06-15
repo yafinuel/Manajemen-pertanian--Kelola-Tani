@@ -241,6 +241,36 @@ class ShowData{
             ";
         }
     }
+
+    function showDataCrops(){
+        $query = "SELECT id_crop, name_crop
+                FROM crops
+                WHERE id_user = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $this->sessionUser);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0 ){
+            $no = 1;
+            while($row = mysqli_fetch_assoc($result)){
+                echo
+                "
+                <tr>
+                    <td class='col-no'>".$no++."</td>
+                    <td>".$row['name_crop']."</td>
+                    <td class='col-no pe-5'><a href='editTanaman.php?id=".$row['id_crop']."' class='text-primary'>edit</a> | <a href='delTanaman.php?id=".$row['id_crop']."' class='text-danger'>delete</a></td>
+                </tr>
+                ";
+            }
+        } else {
+            echo "
+                <tr>
+                    <td colspan='3' class='text-center'>Tidak ada data</td>
+                </tr>
+            ";
+        }
+    }
 }
 
 ?>
