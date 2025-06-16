@@ -6,20 +6,35 @@ class ShowData{
     function __construct($conn, $sessionUser){
         $this->conn = $conn;
         $this->sessionUser = $sessionUser;
+        $this->limit = 5;
+        $this->page1 = isset($_GET['page1']) ? (int)$_GET['page1'] : 1;
+        $this->page2 = isset($_GET['page2']) ? (int)$_GET['page2'] : 1;
+        $this->offset1 = ($this->page1 - 1) * $this->limit;
+        $this->offset2 = ($this->page2 - 1) * $this->limit;
     }
 
-    function showDataFarmer(){
-        $query = "SELECT * FROM farmers where id_user = $this->sessionUser";
+    function showDataFarmer($search){
+        $searchQuery = '';
+        if (!empty($search)){
+            $safeSearch = $this->conn->real_escape_string($search);
+            $searchQuery = "AND (name_farmer LIKE '%$search%' OR role_farmer LIKE '%$search%')";
+        }
+        $countQuery = "SELECT COUNT(*) as total FROM farmers WHERE id_user = $this->sessionUser $searchQuery";
+        $countResult = mysqli_query($this->conn, $countQuery);
+        $totalData = mysqli_fetch_assoc($countResult)['total']; 
+        $totalPages = ceil($totalData / $this->limit); 
+
+        $query = "SELECT * FROM farmers WHERE id_user = $this->sessionUser $searchQuery ORDER BY id_farmer DESC LIMIT $this->limit OFFSET $this->offset1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
-
+        $text = "";
         if($result->num_rows > 0) {
-            $no = 1;
+            $no =  ($this->page1 - 1) * $this->limit + 1;
             while ($row = mysqli_fetch_assoc($result)){
                 $id = $row['id_farmer'];
                 $delText = "Yakin ingin menghapus data ini?";
-                echo "<tr>
+                $text .= "<tr>
                         <td>".$no++."</td>
                         <td>
                             <div class='d-flex align-items-center'>
@@ -42,25 +57,90 @@ class ShowData{
                     </tr>";
             }
         } else {
-            echo "
+            $text .=  "
                 <tr>
                     <td colspan='6' class='text-center'>Tidak ada data</td>
                 </tr>
             ";
         }
-    }
 
-    function showDataFarms(){
-        $query = "SELECT * FROM farms where id_user = $this->sessionUser";
+        return [
+            'totalPages' => $totalPages,
+            'currentPage' => $this->page1,
+            'textHTML' => $text,
+        ];
+    }
+    
+    function showActiveFarmers($search){
+        $searchQuery = '';
+        if (!empty($search)){
+            $safeSearch = $this->conn->real_escape_string($search);
+            $searchQuery = "AND (date_aw LIKE '%$search%' OR name_farmer LIKE '%$search%' OR role_farmer LIKE '%$search%' OR name_farm like'%$search%')";
+        }
+        $countQuery = "SELECT COUNT(*) as total FROM aw_view WHERE id_user = $this->sessionUser $searchQuery";
+        $countResult = mysqli_query($this->conn, $countQuery);
+        $totalData = mysqli_fetch_assoc($countResult)['total']; 
+        $totalPages = ceil($totalData / $this->limit); 
+
+        $query = "SELECT id_aw, date_aw, name_farm, name_farmer, role_farmer
+                    FROM aw_view 
+                    WHERE id_user = $this->sessionUser $searchQuery
+                    ORDER BY id_aw DESC LIMIT $this->limit OFFSET $this->offset2";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
+        $text = "";
+
+        if ($result->num_rows > 0 ){
+            $no = ($this->page2 - 1) * $this->limit + 1;
+            while($row = mysqli_fetch_assoc($result)){
+                $id = $row['id_aw'];
+                $text .= "
+                <tr>
+                    <th scope='row'>".$no++."</th>
+                    <td>".$row['date_aw']."</td>
+                    <td>".$row['name_farm']."</td>
+                    <td>".$row['name_farmer']."</td>
+                    <td>".$row['role_farmer']."</td>
+                    <td><a href='editAw.php?id=$id' class='text-primary'>Edit</a> | <a href='delAw.php?id=$id' class='text-danger' onclick=\"return confirm('Yakin ingin menghapus data ini?')\">Delete</a></td>
+                </tr>";
+            }
+        } else {
+             $text .=  "
+                <tr>
+                    <td colspan='6' class='text-center'>Tidak ada data</td>
+                </tr>
+            ";
+        }
+        return [
+            'totalPages' => $totalPages,
+            'currentPage' => $this->page2,
+            'textHTML' => $text,
+        ];
+    }
+
+    function showDataFarms($search){
+        $searchQuery = '';
+        if (!empty($search)){
+            $safeSearch = $this->conn->real_escape_string($search);
+            $searchQuery = "AND (name_farm LIKE '%$search%')";
+        }
+        $countQuery = "SELECT COUNT(*) as total FROM farms WHERE id_user = $this->sessionUser $searchQuery";
+        $countResult = mysqli_query($this->conn, $countQuery);
+        $totalData = mysqli_fetch_assoc($countResult)['total']; 
+        $totalPages = ceil($totalData / $this->limit); 
+
+        $query = "SELECT * FROM farms WHERE id_user = $this->sessionUser $searchQuery ORDER BY id_farm DESC LIMIT $this->limit OFFSET $this->offset1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $text = "";
 
         if ($result->num_rows > 0){
-            $no = 1;
+            $no = ($this->page1 - 1) * $this->limit + 1;
             while ($row = mysqli_fetch_assoc($result)){
                 $id = $row['id_farm'];
-                echo "
+                $text .= "
                 <div class='list-group-item d-flex align-items-center p-3'>
                     <div class='me-3'>
                         <span class='badge bg-secondary'>".$no++."</span>
@@ -77,28 +157,95 @@ class ShowData{
                 ";
             }
         } else {
-            echo "
+            $text .= "
                 <div class='list-group-item d-flex align-items-center p-3 justify-content-center'>
                     <p class='text-center'>Tidak ada data</p>
                 </div>
             ";
         }
+        
+        return [
+            'totalPages' => $totalPages,
+            'currentPage' => $this->page1,
+            'textHTML' => $text
+        ];
     }
+    
+    function showDataPlanting($search){
+        $searchQuery = '';
+        if (!empty($search)){
+            $safeSearch = $this->conn->real_escape_string($search);
+            $searchQuery = "AND (date_planting LIKE '%$search%' OR name_farm LIKE '%$search%' OR name_crop LIKE '%$search%')";
+        }
+        $countQuery = "SELECT COUNT(*) as total FROM planting_view WHERE id_user = $this->sessionUser $searchQuery";
+        $countResult = mysqli_query($this->conn, $countQuery);
+        $totalData = mysqli_fetch_assoc($countResult)['total']; 
+        $totalPages = ceil($totalData / $this->limit); 
 
-    function showDataWerehouse(){
-        $query = "SELECT s.id_storage, c.name_crop, s.volume_storage
-                FROM storages s, crops c
-                WHERE s.id_crop = c.id_crop and s.id_user = ?";
+        $query = "SELECT id_planting, date_planting, name_farm, name_crop
+                    FROM planting_view
+                    WHERE id_user = $this->sessionUser $searchQuery
+                    ORDER BY fp.id_planting ASC LIMIT $this->limit OFFSET $this->offset2";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('i', $this->sessionUser);
         $stmt->execute();
         $result = $stmt->get_result();
+        $text = "";
 
         if ($result->num_rows > 0 ){
-            $no = 1;
+            $no = ($this->page2 - 1) * $this->limit + 1;
+            while($row = mysqli_fetch_assoc($result)){
+                $id = $row['id_planting'];
+                $text .= "
+                <tr>
+                <th scope='row'>".$no++."</th>
+                <td>".$row['date_planting']."</td>
+                <td>".$row['name_farm']."</td>
+                <td>".$row['name_crop']."</td>
+                <td><a href='editFp.php?id=$id' class='text-primary'>Edit</a> | <a href='delFp.php?id=$id' class='text-danger' onclick=\"return confirm('Yakin ingin menghapus data ini?')\">Delete</a></td>
+                </tr>
+                ";
+            }
+        } else {
+            $text .= "
+                <tr>
+                    <td colspan='6' class='text-center'>Tidak ada data</td>
+                </tr>
+            ";
+        }
+        return [
+            'totalPages' => $totalPages,
+            'currentPage' => $this->page2,
+            'textHTML' => $text
+        ];
+    }
+
+    function showDataWerehouse($search){
+        $searchQuery = '';
+        if (!empty($search)){
+            $safeSearch = $this->conn->real_escape_string($search);
+            $searchQuery = "AND (c.name_crop LIKE '%$search%')";
+        }
+        $countQuery = "SELECT COUNT(*) as total 
+                        FROM storages s, crops c 
+                        WHERE  s.id_crop = c.id_crop and s.id_user = $this->sessionUser $searchQuery";
+        $countResult = mysqli_query($this->conn, $countQuery);
+        $totalData = mysqli_fetch_assoc($countResult)['total']; 
+        $totalPages = ceil($totalData / $this->limit); 
+
+        $query = "SELECT s.id_storage, c.name_crop, s.volume_storage
+                    FROM storages s, crops c
+                    WHERE  s.id_crop = c.id_crop and s.id_user = $this->sessionUser $searchQuery
+                    ORDER BY s.id_storage ASC LIMIT $this->limit OFFSET $this->offset1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $text = "";
+
+        if ($result->num_rows > 0 ){
+            $no = ($this->page1 - 1) * $this->limit + 1;
             while($row = mysqli_fetch_assoc($result)){
                 $id = $row['id_storage'];
-                echo "
+                $text .= "
                 <div class='row border rounded p-3 mb-2'>
                 <div class='col-1 text-center'>
                     <span class='badge bg-secondary'>".$no++."</span>
@@ -116,160 +263,159 @@ class ShowData{
             </div>
                 ";
             }
-        }
-    }
-    function showActiveFarmers(){
-        $query = "SELECT id_aw, date_aw, name_farm, name_farmer, role_farmer
-                    FROM aw_view";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0 ){
-            $no = 1;
-            while($row = mysqli_fetch_assoc($result)){
-                $id = $row['id_aw'];
-                echo "
-                <tr>
-                    <th scope='row'>".$no++."</th>
-                    <td>".$row['date_aw']."</td>
-                    <td>".$row['name_farm']."</td>
-                    <td>".$row['name_farmer']."</td>
-                    <td>".$row['role_farmer']."</td>
-                    <td><a href='editAw.php?id=$id' class='text-primary'>Edit</a> | <a href='delAw.php?id=$id' class='text-danger' onclick=\"return confirm('Yakin ingin menghapus data ini?')\">Delete</a></td>
-                </tr>";
-            }
         } else {
-            echo "
-                <tr>
-                    <td colspan='6' class='text-center'>Tidak ada data</td>
-                </tr>
+            // This block runs if there are no rows in the result
+            $text .= "
+            <div class='alert text-center' role='alert'>
+                Belum ada data penyimpanan tersedia.
+            </div>
             ";
         }
+        return [
+            'totalPages' => $totalPages,
+            'currentPage' => $this->page1,
+            'textHTML' => $text
+        ];
     }
 
-    function showDataWorkingNow(){
-        $query = "SELECT id_planting, date_planting, name_farm, name_crop, id_user, total_workers 
-                FROM fp_view
-                WHERE id_user = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("s",$this->sessionUser);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0 ){
-            $no = 1;
-            while($row = mysqli_fetch_assoc($result)){
-                echo "
-                <tr>
-                <th scope='row'>".$no++."</th>
-                <td>".$row['date_planting']."</td>
-                <td>".$row['name_farm']."</td>
-                <td>".$row['name_crop']."</td>
-                <td class='text-center'><a href=''>".$row['total_workers']."</a></td>
-                <td><a href='selesaiWn.php?id=".$row['id_planting']."' class='text-primary'>Selesai</a> | <a href='delWn.php?id=".$row['id_planting']."' class='text-danger'>Hapus</a></td>
-                </tr>
-                ";
-            }
-        } else {
-            echo "
-                <tr>
-                    <td colspan='6' class='text-center'>Tidak ada data</td>
-                </tr>
-            ";
+    function showDataStock($search){
+        $searchQuery = '';
+        if (!empty($search)){
+            $safeSearch = $this->conn->real_escape_string($search);
+            $searchQuery = "AND (f.date_flow LIKE '%$search%' OR c.name_crop LIKE '%$search%')";
         }
-    }
+        $countQuery = "SELECT COUNT(*) as total FROM storage_flows f, crops c WHERE f.id_crop = c.id_crop and f.id_user = $this->sessionUser $searchQuery";
+        $countResult = mysqli_query($this->conn, $countQuery);
+        $totalData = mysqli_fetch_assoc($countResult)['total']; 
+        $totalPages = ceil($totalData / $this->limit); 
 
-    function showDataPlanting(){
-        $query = "SELECT fp.id_planting, fp.date_planting, f.name_farm, c.name_crop
-                FROM farm_planting fp, farms f, crops c
-                WHERE fp.id_user = ? and fp.id_farm = f.id_farm and fp.id_crop = c.id_crop";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i",$this->sessionUser);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0 ){
-            $no = 1;
-            while($row = mysqli_fetch_assoc($result)){
-                $id = $row['id_planting'];
-                echo "
-                <tr>
-                <th scope='row'>".$no++."</th>
-                <td>".$row['date_planting']."</td>
-                <td>".$row['name_farm']."</td>
-                <td>".$row['name_crop']."</td>
-                <td><a href='editFp.php?id=$id' class='text-primary'>Edit</a> | <a href='delFp.php?id=$id' class='text-danger' onclick=\"return confirm('Yakin ingin menghapus data ini?')\">Delete</a></td>
-                </tr>
-                ";
-            }
-        } else {
-            echo "
-                <tr>
-                    <td colspan='6' class='text-center'>Tidak ada data</td>
-                </tr>
-            ";
-        }
-    }
-
-    function showDataStock(){
         $query = "SELECT f.id_flow, f.date_flow, c.name_crop, f.in_flow, f.out_flow, f.id_user
-                FROM storage_flows f, crops c
-                WHERE f.id_crop = c.id_crop and f.id_user = ?";
+                    FROM storage_flows f, crops c
+                    WHERE f.id_crop = c.id_crop and f.id_user = $this->sessionUser $searchQuery
+                    ORDER BY f.id_flow ASC LIMIT $this->limit OFFSET $this->offset2";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $this->sessionUser);
         $stmt->execute();
         $result = $stmt->get_result();
+        $text = "";
 
         if ($result->num_rows > 0 ){
-            $no = 1;
+            $no = ($this->page2 - 1) * $this->limit + 1;
             while($row = mysqli_fetch_assoc($result)){
-                echo
+                $text .= 
                 "<tr>
                     <th scope='row'>".$no++."</th>
                     <td>".$row['date_flow']."</td>
                     <td>".$row['name_crop']."</td>
                     <td>".$row['in_flow']." Kg</td>
                     <td>".$row['out_flow']." Kg</td>
-                    <td><a href='editStock.php?id=".$row['id_flow']."' class='text-primary'>edit</a> | <a href='delStock.php?id=".$row['id_flow']."' class='text-danger'>delete</a></td>
+                    <td><a href='editStock.php?id=".$row['id_flow']."' class='text-primary'>edit</a> | <a href='delStock.php?id=".$row['id_flow']."' class='text-danger' onclick=\"return confirm('yakin ingin menghapus data ini?')\">delete</a></td>
                 </tr>";
             }
         } else {
-            echo "
+            $text .= "
                 <tr>
                     <td colspan='6' class='text-center'>Tidak ada data</td>
                 </tr>
             ";
         }
+        return [
+            'totalPages' => $totalPages,
+            'currentPage' => $this->page2,
+            'textHTML' => $text
+        ];
     }
 
-    function showDataCrops(){
-        $query = "SELECT id_crop, name_crop
-                FROM crops
-                WHERE id_user = ?";
+    function showDataWorkingNow($search){
+        $searchQuery = '';
+        if (!empty($search)){
+            $safeSearch = $this->conn->real_escape_string($search);
+            $searchQuery = "AND (date_planting LIKE '%$search%' OR name_crop LIKE '%$search%' OR name_farm LIKE '%$search%' OR total_workers LIKE '%$search%')";
+        }
+        $countQuery = "SELECT COUNT(*) as total FROM fp_view WHERE id_user = $this->sessionUser $searchQuery";
+        $countResult = mysqli_query($this->conn, $countQuery);
+        $totalData = mysqli_fetch_assoc($countResult)['total']; 
+        $totalPages = ceil($totalData / $this->limit); 
+
+        $query = "SELECT id_planting, date_planting, name_farm, name_crop, id_user, total_workers 
+                    FROM fp_view
+                    WHERE id_user = $this->sessionUser $searchQuery
+                    ORDER BY id_planting ASC LIMIT $this->limit OFFSET $this->offset1";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $this->sessionUser);
         $stmt->execute();
         $result = $stmt->get_result();
+        $text = "";
+
+            if ($result->num_rows > 0 ){
+                $no = ($this->page1 - 1) * $this->limit + 1;
+                while($row = mysqli_fetch_assoc($result)){
+                    $text .= "
+                    <tr>
+                    <th scope='row'>".$no++."</th>
+                    <td>".$row['date_planting']."</td>
+                    <td>".$row['name_farm']."</td>
+                    <td>".$row['name_crop']."</td>
+                    <td class='text-center'><a href=''>".$row['total_workers']."</a></td>
+                    <td><a href='selesaiWn.php?id=".$row['id_planting']."' class='text-primary'>Selesai</a> | <a href='delWn.php?id=".$row['id_planting']."' class='text-danger' onclick=\"return confirm('yakin ingin menghapus data ini?')\">Hapus</a></td>
+                    </tr>
+                    ";
+                }
+            } else {
+                $text .= "
+                    <tr>
+                        <td colspan='6' class='text-center'>Tidak ada data</td>
+                    </tr>
+                ";
+            }
+            return [
+                'totalPages' => $totalPages,
+                'currentPage' => $this->page1,
+                'textHTML' => $text
+            ];
+    }
+
+    function showDataCrops($search){
+        $searchQuery = '';
+        if (!empty($search)){
+            $safeSearch = $this->conn->real_escape_string($search);
+            $searchQuery = "AND (name_crop LIKE '%$search%')";
+        }
+        $countQuery = "SELECT COUNT(*) as total FROM crops WHERE id_user = $this->sessionUser $searchQuery";
+        $countResult = mysqli_query($this->conn, $countQuery);
+        $totalData = mysqli_fetch_assoc($countResult)['total']; 
+        $totalPages = ceil($totalData / $this->limit); 
+
+        $query = "SELECT id_crop, name_crop
+                FROM crops
+                WHERE id_user = $this->sessionUser $searchQuery";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $text = "";
 
         if ($result->num_rows > 0 ){
-            $no = 1;
+            $no = ($this->page1 - 1) * $this->limit + 1;
             while($row = mysqli_fetch_assoc($result)){
-                echo
+                $text .=
                 "
                 <tr>
                     <td class='col-no'>".$no++."</td>
                     <td>".$row['name_crop']."</td>
-                    <td class='col-no pe-5'><a href='editTanaman.php?id=".$row['id_crop']."' class='text-primary'>edit</a> | <a href='delTanaman.php?id=".$row['id_crop']."' class='text-danger'>delete</a></td>
+                    <td class='col-no pe-5'><a href='editTanaman.php?id=".$row['id_crop']."' class='text-primary'>edit</a> | <a href='delTanaman.php?id=".$row['id_crop']."' class='text-danger' onclick=\"return confirm('yakin ingin menghapus data ini?')\">delete</a></td>
                 </tr>
                 ";
             }
         } else {
-            echo "
+            $text .= "
                 <tr>
                     <td colspan='3' class='text-center'>Tidak ada data</td>
                 </tr>
             ";
         }
+        return [
+            'totalPages' => $totalPages,
+            'currentPage' => $this->page1,
+            'textHTML' => $text
+        ];
     }
 }
 

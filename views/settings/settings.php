@@ -22,6 +22,8 @@
             $stmtCrop->close();
         }
     }
+
+    $feedbackMessage ='';
     
     // Feedback
     if(isset($_POST['fbSubmit'])){
@@ -68,6 +70,8 @@
     <?php
         if($feedbackMessage){
             echo "<script>alert(".json_encode($feedbackMessage).")</script>";
+        } else {
+            
         }
     ?>
     <!-- Navbar -->
@@ -80,10 +84,10 @@
                     <div class="col-md-3 col-lg-2">
                         <div class="sidebar">
                             <ul class="sidebar-menu">
-                                <li><a href="#" class="fs-3">Settings</a></li>
+                                <li class="fs-3">Settings</li>
                                 <li><a href="#" data-page="tanaman" selected>Tanaman</a></li>
                                 <li><a href="#" data-page="feedback">Feedback</a></li>
-                                <li><a href="logout.php" class="logout-link">Logout</a></li>
+                                <li><a href="logout.php" class="logout-link" onclick="return confirm('Are you sure want to log out?')">Logout</a></li>
                             </ul>
                         </div>
                     </div>

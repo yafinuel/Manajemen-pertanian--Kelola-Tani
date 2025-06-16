@@ -41,6 +41,7 @@ th, td {
 }
 
 
+
 /* Custome syle */
 .main {
     margin-top: 100px;
@@ -149,4 +150,20 @@ th, td {
 /* Bootstrap hover edit */
 .nav-link:hover{
     background-color: var(--primary-dark-green);
+}
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-green);
+    border-color: #198754;
+    color: white;
+}
+
+/* Hover untuk tombol */
+.pagination .page-link:hover {
+    color: #198754;
+}
+
+@media only screen and (max-width:768px){
+    .for-hidden {
+        display: none;
+    }
 }

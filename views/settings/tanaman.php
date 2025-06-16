@@ -4,6 +4,9 @@
     requireLogin(); 
     $id_user = $_SESSION['id_user'];
     $show = new ShowData($conn, $_SESSION['id_user']); 
+
+    $data = $show->showDataCrops("");
+    $showData = $data['textHTML'];
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +35,9 @@
                 </tr>
             </thead>
             <tbody>
-                <?php $show->showDataCrops();?>
+                <?php 
+                echo $showData = $data['textHTML'];
+                ?>
             </tbody>
         </table>
     </div>
