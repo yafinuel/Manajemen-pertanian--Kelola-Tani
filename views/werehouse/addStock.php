@@ -5,6 +5,7 @@
 
     $status_message = ''; 
     $status_type = ''; 
+    $pesan = ''; 
 
     if (isset($_POST['submit'])){
         $dateFlow = $_POST['dateFlow'];
@@ -14,32 +15,42 @@
 
         $errors = array();
 
-        // Validasi yang lebih baik untuk dropdown
-        if(empty($dateFlow)) $errors[] = "Tanggal tidak boleh kosong.";
-        if(empty($nameCrop)) $errors[] = "Nama tanaman tidak boleh kosong.";
-        if(empty($errors)){
-            $query = "INSERT INTO storage_flows (date_flow, id_crop, in_flow, out_flow, id_user) VALUES (?,?,?,?,?)";
-            $stmt = $conn->prepare($query);
+        $querySelectStorage= "SELECT * FROM storages WHERE id_user = ? and id_crop = ?";
+        $storageStmt = $conn->prepare($querySelectStorage);
+        $storageStmt->bind_param("ii", $id_user, $nameCrop);
+        $storageStmt->execute();
+        $result = $storageStmt->get_result();
 
-            if($stmt){
-                $stmt->bind_param('siiii', $dateFlow, $nameCrop, $inFlow, $outFlow, $id_user);
-
-                if ($stmt->execute()){
-                    $status_message = 'Data berhasil ditambahkan';
-                    $status_type = 'success';
+        if ($result->num_rows > 0 ) {
+            if(empty($dateFlow)) $errors[] = "Tanggal tidak boleh kosong.";
+            if(empty($nameCrop)) $errors[] = "Nama tanaman tidak boleh kosong.";
+            if(empty($errors)){
+                $query = "INSERT INTO storage_flows (date_flow, id_crop, in_flow, out_flow, id_user) VALUES (?,?,?,?,?)";
+                $stmt = $conn->prepare($query);
+    
+                if($stmt){
+                    $stmt->bind_param('siiii', $dateFlow, $nameCrop, $inFlow, $outFlow, $id_user);
+    
+                    if ($stmt->execute()){
+                        $status_message = 'Data berhasil ditambahkan';
+                        $status_type = 'success';
+                    } else {
+                        $status_message = "Error saat insert data: " . $stmt->error;
+                        $status_type = 'danger';
+                    }
+                    $stmt->close();
                 } else {
-                    $status_message = "Error saat insert data: " . $stmt->error;
+                    $status_message = "Error mempersiapkan insert statement: " . $conn->error;
                     $status_type = 'danger';
                 }
-                $stmt->close();
             } else {
-                $status_message = "Error mempersiapkan insert statement: " . $conn->error;
+                $status_message = implode("<br>", $errors);
                 $status_type = 'danger';
             }
         } else {
-            $status_message = implode("<br>", $errors);
-            $status_type = 'danger';
+            $pesan = "Buat penyimpanannya dulu di gudang!";
         }
+
     }
 ?>
 
@@ -54,6 +65,11 @@
     <link rel="stylesheet" href="../../assets/css/style.css?v=1.2">
 </head>
 <body class="bg-light">
+    <?php if($pesan):?>
+        <script>
+            alert(<?php echo json_encode($pesan); ?>);
+        </script>
+    <?php endif;?>
     <div class="container mt-5">
         <div class="card shadow">
             <div class="card-header bg-primary-green text-white text-center">
@@ -73,13 +89,11 @@
 
             <div class="card-body">
                 <form action="addStock.php" method="post">
-                    <!-- Tanggal -->
                     <div class="mb-3">
                         <label for="dateFlow" class="form-label">Tanggal:</label>
                         <input type="date" class="form-control" id="dateFlow" name="dateFlow" required>
                     </div>
 
-                    <!-- Tanaman -->
                     <div class="mb-3">
                         <label for="nameCrop" class="form-label">Tanaman</label>
                         <select class="form-select" aria-label="Pilih tanggal bekerja" id="nameCrop" name="nameCrop" required>
