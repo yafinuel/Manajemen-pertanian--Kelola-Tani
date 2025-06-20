@@ -166,4 +166,8 @@ th, td {
     .for-hidden {
         display: none;
     }
+
+    .card-title {
+        font-size: 14px;
+    }
 }

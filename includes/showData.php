@@ -185,7 +185,7 @@ class ShowData{
         $query = "SELECT id_planting, date_planting, name_farm, name_crop
                     FROM planting_view
                     WHERE id_user = $this->sessionUser $searchQuery
-                    ORDER BY fp.id_planting ASC LIMIT $this->limit OFFSET $this->offset2";
+                    ORDER BY id_planting ASC LIMIT $this->limit OFFSET $this->offset2";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -246,23 +246,24 @@ class ShowData{
             while($row = mysqli_fetch_assoc($result)){
                 $id = $row['id_storage'];
                 $text .= "
-                <div class='row border rounded p-3 mb-2'>
+                <div class='row border rounded p-3 mb-2 justify-content-between pe-5'>
                 <div class='col-1 text-center'>
                     <span class='badge bg-secondary'>".$no++."</span>
                 </div>
-                <div class='col-4'>
+                <div class='col-1'>
                     <h6 class='mb-0'>".$row['name_crop']."</h6>
                 </div>
-                <div class='col-3 text-center'>
+                <div class='col-1 text-center '>
                     <p>".$row['volume_storage']." Kg</p>
                 </div>
-                <div class='col-4 text-center'>
-                    <a href='editItem.php?id=$id' class='text-primary me-2'>edit</a> • 
-                    <a href='delItem.php?id=$id' class='text-danger ms-2' onclick=\"return confirm('Yakin ingin menghapus data ini?')\">delete</a>
-                </div>
+                
             </div>
                 ";
             }
+            // <div class='col-4 text-center'>
+            //         <a href='editItem.php?id=$id' class='text-primary me-2'>edit</a> • 
+            //         <a href='delItem.php?id=$id' class='text-danger ms-2' onclick=\"return confirm('Yakin ingin menghapus data ini?')\">delete</a>
+            //     </div>
         } else {
             // This block runs if there are no rows in the result
             $text .= "

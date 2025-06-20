@@ -81,6 +81,8 @@
                                     while($farmRow = mysqli_fetch_assoc($farmResult)){
                                         echo "<option value=".$farmRow['id_farm'].">".$farmRow['name_farm']."</option>";
                                     }
+                                }else {
+                                    echo "<option>Tambah lahan pertanian terlebih dahulu</option>";
                                 }
                                 ?>
                         </select>
@@ -102,6 +104,8 @@
                                     while($cropRow = mysqli_fetch_assoc($cropResult)){
                                         echo "<option value='".$cropRow['id_crop']."'>".$cropRow['name_crop']."</option>";
                                     }
+                                }else {
+                                    echo "<option>Tambah data tanaman terlebih dahulu</option>";
                                 }
                             ?>
                         </select>

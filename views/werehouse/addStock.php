@@ -110,6 +110,8 @@
                                     while($cropRow = mysqli_fetch_assoc($cropResult)){
                                         echo "<option value='".$cropRow['id_crop']."'>".$cropRow['name_crop']."</option>";
                                     }
+                                }else {
+                                    echo "<option>Tambah data tanaman terlebih dahulu</option>";
                                 }
                             ?>
                         </select>

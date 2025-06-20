@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 17, 2025 at 04:07 AM
+-- Generation Time: Jun 20, 2025 at 07:48 AM
 -- Server version: 8.0.42
 -- PHP Version: 8.2.12
 
@@ -21,11 +21,46 @@ SET time_zone = "+00:00";
 -- Database: `kelola_tani`
 --
 
+
+-- DISCLAIMER : apabila mengalami eror saat melakukan ekspor maka ubah seluruh "utf8mb4_0900_ai_ci" menjadi "utf8mb4_general_ci"
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `tambah_tanaman` (IN `p_nama_tanaman` VARCHAR(50), IN `p_id_user` INT)   begin 
+	 DECLARE v_new_id_crop INT; 
+	
+	insert into crops(name_crop, id_user) values
+	(p_nama_tanaman, p_id_user);
+
+	set v_new_id_crop = last_insert_id(); 
+
+	insert into storages(id_crop, volume_storage, id_user) values
+	( v_new_id_crop, 0, p_id_user);
+end$$
+
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `jumlah_data_tanaman_berdasarkan_volume_storages` (`p_volume_tanaman` INT) RETURNS INT READS SQL DATA begin
+	 DECLARE jumlah_data INT;
+	select count(*) into jumlah_data
+	from storages
+	where volume_storage > p_volume_tanaman;
+	
+	return jumlah_data;
+end$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `active_workers`
 --
+
+
 
 CREATE TABLE `active_workers` (
   `id_aw` int NOT NULL,
@@ -42,12 +77,12 @@ CREATE TABLE `active_workers` (
 -- (See below for the actual view)
 --
 CREATE TABLE `aw_view` (
-`date_aw` date
-,`id_aw` int
-,`id_user` int
+`id_aw` int
+,`date_aw` date
 ,`name_farm` varchar(50)
 ,`name_farmer` varchar(100)
 ,`role_farmer` varchar(50)
+,`id_user` int
 );
 
 -- --------------------------------------------------------
@@ -67,12 +102,14 @@ CREATE TABLE `crops` (
 --
 
 INSERT INTO `crops` (`id_crop`, `name_crop`, `id_user`) VALUES
-(1, 'Seledri', 1),
+(1, 'Mangga', 1),
 (2, 'Bawang', 1),
 (18, 'Bayam', 1),
 (19, 'Wortel', 1),
 (21, 'Jagung', 1),
-(27, 'Teh', 1);
+(27, 'Teh', 1),
+(28, 'Pisang', 6),
+(29, 'Pisang', 6);
 
 -- --------------------------------------------------------
 
@@ -100,8 +137,6 @@ INSERT INTO `farmers` (`id_farmer`, `birthday_farmer`, `name_farmer`, `role_farm
 (26, '2000-02-01', 'Gian Setyo', 'Harvester', 100000, 1),
 (27, '1999-06-10', 'Fito Ikibudin', 'Farmer', 100000, 1),
 (28, '1999-12-23', 'Rudiansyah Akbar', 'Quality Control', 100000, 1),
-(29, '1999-12-23', 'Rudiansyah Akbar', 'Quality Control', 100000, 1),
-(30, '2000-11-12', 'Fito Ikibudin', 'Farmer', 100000, 1),
 (31, '1999-10-11', 'SIsi Dark', 'Farmer', 100000, 1);
 
 -- --------------------------------------------------------
@@ -144,6 +179,13 @@ CREATE TABLE `farm_planting` (
   `id_user` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `farm_planting`
+--
+
+INSERT INTO `farm_planting` (`id_planting`, `date_planting`, `id_farm`, `id_crop`, `id_user`) VALUES
+(22, '2025-06-18', 2, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -173,11 +215,11 @@ INSERT INTO `feedback` (`id_feedback`, `id_user`, `kategori_feedback`, `title_fe
 -- (See below for the actual view)
 --
 CREATE TABLE `fp_view` (
-`date_planting` date
-,`id_planting` int
-,`id_user` int
-,`name_crop` varchar(50)
+`id_planting` int
+,`date_planting` date
 ,`name_farm` varchar(50)
+,`name_crop` varchar(50)
+,`id_user` int
 ,`total_workers` bigint
 );
 
@@ -188,11 +230,11 @@ CREATE TABLE `fp_view` (
 -- (See below for the actual view)
 --
 CREATE TABLE `planting_view` (
-`date_planting` date
-,`id_planting` int
-,`id_user` int
-,`name_crop` varchar(50)
+`id_planting` int
+,`date_planting` date
 ,`name_farm` varchar(50)
+,`name_crop` varchar(50)
+,`id_user` int
 );
 
 -- --------------------------------------------------------
@@ -214,8 +256,9 @@ CREATE TABLE `storages` (
 
 INSERT INTO `storages` (`id_storage`, `id_crop`, `volume_storage`, `id_user`) VALUES
 (11, 19, 0, 1),
-(12, 1, 49, 1),
-(13, 2, 100, 1);
+(12, 1, 550, 1),
+(13, 2, 400, 1),
+(14, 29, 0, 6);
 
 -- --------------------------------------------------------
 
@@ -237,9 +280,12 @@ CREATE TABLE `storage_flows` (
 --
 
 INSERT INTO `storage_flows` (`id_flow`, `date_flow`, `id_crop`, `in_flow`, `out_flow`, `id_user`) VALUES
-(8, '2025-06-17', 1, 99, 0, 1),
-(9, '2025-06-17', 1, 0, 50, 1),
-(10, '2025-06-17', 2, 100, 0, 1);
+(8, '2025-06-17', 1, 200, 0, 1),
+(9, '2025-06-17', 1, 200, 50, 1),
+(10, '2025-06-17', 2, 200, 0, 1),
+(11, '2025-06-18', 2, 200, 0, 1),
+(12, '2024-01-15', 18, 200, NULL, 6),
+(13, '2024-01-15', 1, 200, 0, 1);
 
 --
 -- Triggers `storage_flows`
@@ -305,7 +351,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id_user`, `username`, `email`, `password`, `full_name`, `created_at`) VALUES
 (1, 'admin', 'admin@gmail.com', '$2y$10$LanIaYaPm2eZK7deJ6FeAu.uUBlbM3AkkDhs9K37RJ3LIiP5nmkWa', 'admin', '2025-06-07 08:47:12'),
 (6, 'admin2', 'admin2@gmail.com', '$2y$10$0N2InXe6ONV5tlu/oRYBHOPN1KpLbnLmPTaCWwvGftLgNnPP1oCre', 'admin2', '2025-06-07 12:24:05'),
-(7, 'yafi', 'yafi@gmail.com', '$2y$10$9BsxdRylFlnc7xZUEDMaj.cUKB7dq6I3t8f6SFIten5t7fbYbEXEK', 'yafi', '2025-06-16 11:47:34');
+(7, 'yafi', 'yafi@gmail.com', '$2y$10$9BsxdRylFlnc7xZUEDMaj.cUKB7dq6I3t8f6SFIten5t7fbYbEXEK', 'yafi', '2025-06-16 11:47:34'),
+(8, 'mmm', 'mmm@gmail.com', '$2y$10$v5AS6VphxNqhYvauxWqzaOF2K2f/G9jz5UVS4ZQHc9rB1saa9lxQm', 'mmm', '2025-06-19 17:17:20');
 
 -- --------------------------------------------------------
 
@@ -416,13 +463,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `active_workers`
 --
 ALTER TABLE `active_workers`
-  MODIFY `id_aw` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_aw` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `crops`
 --
 ALTER TABLE `crops`
-  MODIFY `id_crop` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_crop` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `farmers`
@@ -440,7 +487,7 @@ ALTER TABLE `farms`
 -- AUTO_INCREMENT for table `farm_planting`
 --
 ALTER TABLE `farm_planting`
-  MODIFY `id_planting` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_planting` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `feedback`
@@ -452,19 +499,19 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT for table `storages`
 --
 ALTER TABLE `storages`
-  MODIFY `id_storage` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_storage` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `storage_flows`
 --
 ALTER TABLE `storage_flows`
-  MODIFY `id_flow` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_flow` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables

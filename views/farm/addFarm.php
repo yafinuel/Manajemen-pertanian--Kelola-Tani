@@ -51,7 +51,7 @@
                     <div class="d-flex justify-content-between">
                         <?php echo $status_message; ?>
                         <a href="farm.php" class="alert-link">
-                            <button type="button" class="btn" >See the data</button>
+                            <button type="button" class="btn" >Lihat data</button>
                         </a>
                     </div>
                 </div>

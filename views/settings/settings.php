@@ -15,7 +15,7 @@
         if(empty($nameCrop)) $errorsCrop[] = "Nama tanaman tidak boleh kosong.";
 
         if(empty($errorsCrop)){
-            $queryCrop = "INSERT INTO crops (name_crop, id_user) VALUES (?,?)";
+            $queryCrop = "CALL tambah_tanaman(?,?)";
             $stmtCrop = $conn->prepare($queryCrop);
             $stmtCrop->bind_param('si',$nameCrop, $id_user);
             $stmtCrop->execute();
@@ -97,7 +97,7 @@
                         <div class="main-content">
                             <div class="content-area">
                                 <!-- Content goes here -->
-                                <p class="text-muted">Main content area - you can add your content here</p>
+                                <p class="text-muted"></p>
                             </div>
                         </div>
                     </div>

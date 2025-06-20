@@ -36,9 +36,9 @@
     <main class="main container d-flex flex-column gap-4 mb-4">
         <h1 class="fw-bold text-primary-green">Dashboard</h1>
        <section class="container-fluid p-3 d-flex gap-3">
-           <div class="card mb-3" style="max-width: 540px;">
+           <div class="card mb-3">
                 <a href="../human_resources/hr.php">
-                    <div class="row g-0">
+                    <div class="row g-0 height">
                         <div class="col-md-4">
                             <img src="../../assets/img/human_resources.webp" class="img-fluid rounded-start" alt="..." style="height:100%;">
                         </div>
@@ -51,9 +51,9 @@
                     </div>
                 </a>
             </div>
-            <div class="card mb-3" style="max-width: 540px;">
+            <div class="card mb-3">
                 <a href="../farm/farm.php">
-                    <div class="row g-0">
+                    <div class="row g-0 height">
                         <div class="col-md-4">
                             <img src="../../assets/img/farm.webp" class="img-fluid rounded-start" alt="..." style="height:100%;">
                         </div>
@@ -66,9 +66,9 @@
                     </div>
                 </a>
             </div>
-            <div class="card mb-3" style="max-width: 540px;">
+            <div class="card mb-3">
                 <a href="../werehouse/werehouse.php">
-                    <div class="row g-0">
+                    <div class="row g-0 height">
                         <div class="col-md-4">
                             <img src="../../assets/img/werehouse.webp" class="img-fluid rounded-start" alt="..." style="height:100%;">
                         </div>

@@ -76,25 +76,21 @@
         <section class="container_sect p-4">
             <div class="d-flex justify-content-between mb-4 mt-3">
                 <h2 class="fs-4 fw-bold text-primary-green">Gudang</h2>
-                <a href="addItem.php"><button class='btn btn-primary-green text-white fw-bold border-0' >Tambah data</button></a> 
             </div>            
             <form method="get" class="mb-3 d-flex gap-2">
                 <input type="text" name="search1" class="form-control" placeholder="Cari nama atau role" value="<?= htmlspecialchars($searchWerehouse) ?>">
                 <input type="hidden" name="search2" class="form-control" placeholder="Cari berdasarkan nama tanaman" value="<?= htmlspecialchars($searchFlowStorage) ?>">
                 <button type="submit" class="btn btn-success">Cari</button>
             </form>
-            <div class="row bg-light p-3 mb-3 rounded">
+            <div class="row bg-light p-3 mb-3 rounded justify-content-between  pe-5">
                 <div class="col-1 text-center">
                     <strong>No</strong>
                 </div>
-                <div class="col-4">
+                <div class="col-1">
                     <strong>Tanaman</strong>
                 </div>
-                <div class="col-3 text-center">
+                <div class="col-1 text-center">
                     <strong>Jumlah</strong>
-                </div>
-                <div class="col-4 text-center">
-                    <strong>Action</strong>
                 </div>
             </div>  
             <?php echo $showDataWerehouse; ?>

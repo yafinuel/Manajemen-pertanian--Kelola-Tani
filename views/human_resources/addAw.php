@@ -100,6 +100,8 @@
                                         $id = $cfp_row['id_planting'];
                                         echo "<option value='$id'>".$cfp_row['date_planting']."</option>";
                                     }
+                                }else {
+                                    echo "<option>Buat data tabel penanaman terlebih dahulu pada halaman farm</option>";
                                 }
                             ?>
                         </select>
@@ -125,6 +127,8 @@
                                         $id = $cw_row['id_farmer'];
                                         echo "<option value='$id'>".$cw_row['name_farmer']."</option>";
                                     }
+                                } else {
+                                    echo "<option>Tambah data petani/pekerja terlebih dahulu</option>";
                                 }
                             ?>
                         </select>

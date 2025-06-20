@@ -14,7 +14,7 @@ if (!isset($_GET['id'])) {
 $id_crop = $_GET['id'];
 
 try {
-    $query = 'DELETE FROM crops WHERE id_crop =? AND id_user = ?';
+    $query = 'CALL hapus_tanaman(?,?)';
     $stmt = $conn->prepare($query);
 
     if ($stmt) {

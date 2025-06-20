@@ -70,7 +70,7 @@
             <div class="card-body">
                 <form action="addItem.php" method="post">
                     <div class="mb-3">
-                        <label for="nameCrop" class="form-label">Nama</label>
+                        <label for="nameCrop" class="form-label">Tanaman</label>
                         <select class="form-select" aria-label="Pilih tanggal bekerja" id="nameCrop" name="nameCrop" required>
                             <option selected value="">Pilih di sini</option>
                             <?php
@@ -85,6 +85,8 @@
                                     while($cropRow = mysqli_fetch_assoc($cropResult)){
                                         echo "<option value='".$cropRow['id_crop']."'>".$cropRow['name_crop']."</option>";
                                     }
+                                }else {
+                                    echo "<option>Tambah data tanaman terlebih dahulu</option>";
                                 }
                             ?>
                         </select>
